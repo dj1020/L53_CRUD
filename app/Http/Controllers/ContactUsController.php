@@ -12,4 +12,9 @@ class ContactUsController extends Controller
     {
         return view('contact.index');
     }
+
+    public function store()
+    {
+        dd(request()->all());
+    }
 }

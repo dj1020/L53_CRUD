@@ -16,3 +16,4 @@ Route::get('/', function () {
 });
 
 Route::get('/contactUs', 'ContactUsController@index');
+Route::post('/submitContact', 'ContactUsController@store');

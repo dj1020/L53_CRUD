@@ -66,7 +66,7 @@ $ php -r "unlink('composer-setup.php');"
 3. 在 route 中加入 `POST /submitContact` 並指向 `ContactUsController@store`
 4. 在 `ContactUsController` 中新增 `store` method 來處理 POST 進來的資料
 5. 在 `store` method 中寫 `dd( request()->all() );` 可以 die & dump 所有 POST 進來的資料，用做 debug
-6. 再回到 <http://localhost:8000/contactUs> 輸入假資料按 `送出`，認識一下 `TokenMissMatched` 的錯誤訊息
+6. 再回到 <http://localhost:8000/contactUs> 輸入假資料按 `送出`，認識一下 `TokenMismatchException` 的錯誤訊息
 7. 在表單加入 `{{ csrf_field() }}`，如下：
 ```
 <form action="/submitContact" method="POST">
