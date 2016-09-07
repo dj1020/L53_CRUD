@@ -19,15 +19,15 @@
                 <h1>Contact form Tutorial from <a href="http://bootstrapious.com">Bootstrapious.com</a></h1>
                 <p class="lead">This is a demo for our tutorial dedicated to crafting working Bootstrap contact form with PHP.</p>
 
-                <form id="contact-form" method="post" action="contact.php" role="form">
+                <form id="contact-form" method="POST" action="/submitContact" role="form">
                     <div class="messages"></div>
                     <div class="controls">
                         <div class="row">
                             <div class="col-md-6">
-                                <div class="form-group has-error">
+                                <div class="form-group">
                                     <label for="form_name">Firstname *</label>
                                     <input id="form_name" type="text" name="name" class="form-control" placeholder="Please enter your firstname *" required="required" data-error="Firstname is required.">
-                                    <div class="help-block with-errors">這是必填欄位</div>
+                                    <div class="help-block with-errors"></div>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -63,7 +63,7 @@
                                 </div>
                             </div>
                             <div class="col-md-12">
-                                <input type="submit" class="btn btn-success btn-send" value="Send message">
+                                <input type="submit" class="btn btn-success btn-send" value="送出">
                             </div>
                         </div>
                         <div class="row">
