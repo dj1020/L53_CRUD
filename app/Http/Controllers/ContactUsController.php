@@ -10,6 +10,6 @@ class ContactUsController extends Controller
 {
     public function index()
     {
-        return 'This is Contact Us Page';
+        return view('contact.index');
     }
 }
