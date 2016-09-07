@@ -20,6 +20,7 @@
                 <p class="lead">This is a demo for our tutorial dedicated to crafting working Bootstrap contact form with PHP.</p>
 
                 <form id="contact-form" method="POST" action="/submitContact" role="form">
+                    {{ csrf_field() }}
                     <div class="messages"></div>
                     <div class="controls">
                         <div class="row">
