@@ -1,7 +1,7 @@
 # Laradiner 讀書會 - Laravel CRUD 手把手基礎教學 by 閃亮亮
 
 * 有問題歡迎到 [Laravel.tw 台灣社群] 發問
-* 我寫的超細，請耐心照步驟一步步做，我真應該錄影片的
+* 我寫的超細，請耐心照步驟一步步做，寫這些遠比你實作起來更多更累啊…… 我真應該錄影片就好的
 * 如果還是有看不懂的一定要問，碰到太多新手不敢問的，都新手了還不問只好永遠當新手
 
 [Laravel.tw 台灣社群]: https://www.facebook.com/groups/laravel.tw/
@@ -47,8 +47,8 @@ $ php -r "unlink('composer-setup.php');"
 11. 在 `contact/index.blade.php` 裡寫一般的 HTML，但 CSS 要放在 `public/css` 下，JS 要放在 `public/js` 下，引用時開頭要加 `/`
 12. 舉例，要引用 `jquery.min.js` 請下載後放在 `public/js` 下；要引用 `bootstrap.min.css` 請下載後放在 `public/css` 下，在 `contact/index.blade.php` 裡這樣寫：
 ``` html
-<script src="/js/jquery.min.js"></script>
 <link rel="stylesheet" href="/css/bootstrap.min.css" />
+<script src="/js/jquery.min.js"></script>
 ```
 
 13. 重新整理 <http://localhost:8000/contactUs> 看到「聯絡我們」表單 UI
@@ -78,8 +78,82 @@ $ php -r "unlink('composer-setup.php');"
 
 8. 再回到 <http://localhost:8000/contactUs> 輸入假資料按 `送出`，畫面上應該會出現你剛剛輸入的資料了。
 
-#### Step 5. 表單 POST 傳送資料到後端並顯示
+#### Step 4. 資料庫連線和測試
 
+1. 建立 `l53_crud` 資料庫
+2. 建立 `homestead` 使用者，設密碼為 `secret`
+3. (重要) 把 `l53_crud` 資料庫的權限開給 `homestead` 使用者，先權限全開吧
+4. 編輯 `L53_CRUD/.env` 檔
+
+``` bash
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=l53_crud
+DB_USERNAME=homestead
+DB_PASSWORD=secret
+```
+
+
+5. 記得如果你是用 `$ php artisan serve` 開發，請關掉重啟才會讀取到新的 `.env` 設定
+6. 建議先用一般的 MySQL client (ex: Sequel Pro) 程式連連看資料庫，連得上的話，照著設定一定也會可以連得上。
+7. 執行 `php artisan migrate` 如果沒有錯誤訊息就表示 Laravel 連線資料庫正常，並用 MySQL client 檢查資料庫(i.e. database, 或簡稱 DB) 中多了哪些 tables
+8. 用 Mac 的人可以裝 MAMP，但預設的 Port 是 8889，用 Open WebStart Page 可以看到資料庫相關設定
+9. 用 Windows 的人可以裝 XAMPP / WAMP 等，或是裝 Wagon 一次搞定開發環境，請[參考這裡](http://www.laravel-dojo.com/opensource/wagon)
+
+## Step 5. 建立 Laravel Migration 和 Model 用來建立及存取 DB table
+
+* 剛剛你在 MySQL client 裡應該會看到 users、password\_reset、migrations 三個 tables，其中 users 和 password_reset 表是透過這些 migration 檔來建立的：
+    - `database/migrations/2014_10_12_000000_create_users_table.php`
+    - `database/migrations/2014_10_12_100000_create_password_resets_table.php`
+
+* 現在，我們要建我們自己的 migration 檔，透過 migration 檔在 DB 中建 table
+
+1. `$ php artisan make:model Contact -m` 會做兩件事
+    - 產生新的 migration 檔在 `database/migrations/2016_09_XX_XXXXXX_create_contacts_table.php`
+    - 產生新的 model 檔在 `app/Contact.php`
+2. 編輯 `2016_09_XX_XXXXXX_create_contacts_table.php` 檔，檔名打 X 的部份是會隨時間改變的，可忽略，把「聯絡我們」表單中要存的欄位建立起來：
+``` php
+    Schema::create('contacts', function (Blueprint $table) {
+        $table->increments('id');
+
+        $table->string('firstName');
+        $table->string('lastName');
+        $table->string('email');
+        $table->string('phone')->nullable();
+        $table->string('message');
+
+        $table->timestamps();
+    });
+```
+
+4. 再執行 `$ php artisan migrate`，然後再用 MySQL client 檢查資料庫，你的 `contacts` table 應該就建好了
+5. (資料表所有資料會不見唷！！！) 要清掉重建所有 tables 可以用 `$ php artisan migrate:refresh`
+6. 只是清掉不重建 `$ php aritsan migrate:reset`
+
+* Live Demo Only: `Tinker` 的用法，並示範利用 Model 存取資料表資料 So Easy~
+
+## Step 6. 把「聯絡我們」表單收到的資料存進 DB
+
+1. 注意 namespace，記得是用 `\App\Contact` 來使用 Model，不然就需要用 `use App\Contact;`
+2. 編輯 `ContactUsController@store` 將 POST 進來的資料存進資料庫
+``` php
+    public function store()
+    {
+        var_dump(request()->all());
+
+        $newContact = new \App\Contact();
+        $newContact->firstName = request()->get('name');
+        $newContact->lastName = request()->get('surname');
+        $newContact->email = request()->get('email');
+        $newContact->phone = request()->has('phone') ? request()->get('email') : '';
+        $newContact->message = request()->get('message');
+        $newContact->save();
+    }
+```
+
+3. Live Demo Only: 介紹 `MassAssignmentException` 和 `Contact::create([...]);` 及 `$fillable` 屬性
+4.
 
 
 
