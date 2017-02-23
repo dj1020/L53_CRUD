@@ -11,6 +11,7 @@
                 <th>Phone</th>
                 <th>Email</th>
                 <th>Contact Content</th>
+                <th>Actions</th>
             </tr>
             </thead>
             <tbody>
@@ -20,6 +21,9 @@
                     <td>{{ $contact['phone'] }}</td>
                     <td>{{ $contact['email'] }}</td>
                     <td>{{ $contact['message'] }}</td>
+                    <td>
+                        <a class="btn btn-primary" href="{{ route('editContact', $contact['id']) }}">編輯</a>
+                    </td>
                 </tr>
             @endforeach
            </tbody>

@@ -41,6 +41,7 @@ class AdminContactController extends Controller
         $outputs = [];
         foreach ($contactsFromDB as $k => $contact) {
             $outputs[] = [
+                'id'      => $contact['id'],
                 'name'    => $contact['firstName'] . ' ' . $contact['lastName'],
                 'phone'   => $contact['phone'],
                 'email'   => $contact['email'],
@@ -94,7 +95,7 @@ class AdminContactController extends Controller
      */
     public function edit($id)
     {
-        //
+        dd('Edit Contact', $id);
     }
 
     /**

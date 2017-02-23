@@ -23,3 +23,4 @@ Auth::routes();
 Route::get('/home', 'HomeController@index');
 
 Route::get('/admin/contacts', 'AdminContactController@index');
+Route::get('/admin/contacts/{id}/edit', 'AdminContactController@edit')->name('editContact');
