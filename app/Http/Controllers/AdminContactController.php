@@ -35,8 +35,11 @@ class AdminContactController extends Controller
             ],
         ];
 
+        $contactsFromDB = \App\Contact::all();
+        // dd($contactsFromDB->toArray());
+
         return view('admin.contacts.index', [
-            'contactList' => $contacts,
+            'contactList' => $contactsFromDB->toArray(),
         ]);
     }
 
