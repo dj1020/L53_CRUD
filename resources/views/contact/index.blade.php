@@ -19,6 +19,12 @@
                 <h1>Contact form Tutorial from <a href="http://bootstrapious.com">Bootstrapious.com</a></h1>
                 <p class="lead">This is a demo for our tutorial dedicated to crafting working Bootstrap contact form with PHP.</p>
 
+                @if (session('msg'))
+                <div class="alert alert-success" role="alert">
+                    <strong>感謝您！</strong> {{ session('msg') }}
+                </div>
+                @endif
+
                 <form id="contact-form" method="POST" action="/submitContact" role="form">
                     {{ csrf_field() }}
                     <div class="messages"></div>

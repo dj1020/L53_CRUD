@@ -16,8 +16,6 @@ class ContactUsController extends Controller
 
     public function store()
     {
-        var_dump(request()->all());
-
         $newContact = new Contact();
         $newContact->firstName = request()->get('name');
         $newContact->lastName = request()->get('surname');
@@ -25,5 +23,7 @@ class ContactUsController extends Controller
         $newContact->phone = request()->has('phone') ? request()->get('email') : '';
         $newContact->message = request()->get('message');
         $newContact->save();
+
+        return redirect('/contactUs')->with('msg', '謝謝您，我們已收到您的來信，會儘快給您回覆！');
     }
 }
