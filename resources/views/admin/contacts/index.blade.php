@@ -4,8 +4,6 @@
     <div class="container">
         <h2>顯示 Contacts 列表</h2>
 
-        {{ dd($contactList) }}
-
         <table class="table table-striped">
             <thead>
             <tr>
@@ -16,19 +14,15 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td>John</td>
-                <td>Doe</td>
-                <td>Doe</td>
-                <td>john@example.com</td>
-            </tr>
-            <tr>
-                <td>Mary</td>
-                <td>Moe</td>
-                <td>Moe</td>
-                <td>mary@example.com</td>
-            </tr>
-            </tbody>
+            @foreach ($contactList as $contact)
+                <tr>
+                    <td>{{ $contact['name'] }}</td>
+                    <td>{{ $contact['phone'] }}</td>
+                    <td>{{ $contact['email'] }}</td>
+                    <td>{{ $contact['message'] }}</td>
+                </tr>
+            @endforeach
+           </tbody>
         </table>
 
     </div>
