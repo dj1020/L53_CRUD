@@ -21,3 +21,5 @@ Route::post('/submitContact', 'ContactUsController@store');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index');
+
+Route::get('/admin/contacts', 'AdminContactController@index');

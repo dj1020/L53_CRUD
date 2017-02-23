@@ -32,7 +32,7 @@ $ php -r "unlink('composer-setup.php');"
 
 #### Step 2. 建立「聯絡我們」表單
 
-* 請練習看 commit 做了什麼事，有問題歡迎拿 commit 的 url 到 [Laravel.tw 台灣社群] 發問
+* 請練習看 [commits](https://github.com/dj1020/L53_CRUD/commits/master) 做了什麼事，有問題歡迎拿 commit 的 url 到 [Laravel.tw 台灣社群] 發問
 
 1. 利用 `php artisan serve` 啟動 Web Server，並開啟 Laravel 首頁 <http://localhost:8000/>
 2. 在 `routes/web.php` 裡增加 route `GET /contactUs`，並指向 `ContactUsController@index`
@@ -153,8 +153,19 @@ DB_PASSWORD=secret
 ```
 
 3. Live Demo Only: 介紹 `MassAssignmentException` 和 `Contact::create([...]);` 及 `$fillable` 屬性
-4.
 
+## Step 7. 建立管理員用的 `AdminContactController` ，利用 `make:auth` 來建立簡單的登入機制
+
+1. `$ php artisan make:auth` 這樣就建好了！ 就這麼簡單~
+2. `$ php artisan make:controller AdminContactController --resource` 建立 AdminContactController
+3. 製作 Contact 列表頁面，定義 route `/admin/contacts` 並使用 `AdminContactController@index` 顯示出來
+4. 製作 Edit Contact 頁，定義 route `/admin/contacts/edit/{id}` 並使用 `AdminContactController@edit` 顯示出來
+5. 定義 PUT request 到 `/admin/contacts/{id}` 時，觸發 `AdminContactController@update`，來更新 contacts 資料。
+6. 定義 DELETE request 到 `/admin/contacts/{id}` 時，觸發 `AdminContactController@destroy`，來刪除 contacts 資料。
+
+## Step 8. 讓只有管理員可以 Update/Delete Contacts 資料
+
+* 運用 middleware 來過濾是否為 Admin，只有 Admin 才可以進入 `/admin/contacts`
 
 
 
