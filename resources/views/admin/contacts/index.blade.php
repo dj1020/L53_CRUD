@@ -4,6 +4,8 @@
     <div class="container">
         <h2>顯示 Contacts 列表</h2>
 
+        {{ dd($contactList) }}
+
         <table class="table table-striped">
             <thead>
             <tr>
